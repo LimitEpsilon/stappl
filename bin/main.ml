@@ -52,6 +52,11 @@ let command : Command.t =
        if pp_opt || graph_opt then printf "\n";
        printf "Inference: %s\n" filename;
        Out_channel.flush stdout;
+       let program = get_program filename in
+       print_endline "before inline";
+       let inlined = Typing.inline program in
+       print_endline "after inline";
+       print_s [%sexp (inlined : Parse_tree.exp)];
        let graph, query =
          !graph_query
          |> Option.value
